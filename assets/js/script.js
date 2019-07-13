@@ -3,11 +3,9 @@ var topics = [
   "cat",
   "bird",
   "fish",
-  "mouse",
-  "whale",
-  "shark",
-  "elephant",
-  "giraffe"
+  "horse",
+  "pig",
+  "shark"
 ];
 var colorArr = [
   "#53f953",
@@ -34,7 +32,7 @@ var resultNumber;
 
 function makeButtons() {
   $("#buttonArea").empty();
-  topics.forEach(function(item) {
+  topics.forEach(function (item) {
     var button = $("<button>");
     var color = colorArr[Math.floor(Math.random() * colorArr.length)];
     var color1 = colorArr[Math.floor(Math.random() * colorArr.length)];
@@ -56,7 +54,7 @@ function getGiphy() {
   $.ajax({
     url: queryURL,
     method: "GET"
-  }).then(function(response) {
+  }).then(function (response) {
     console.log(response.data);
     for (var i = 0; i < response.data.length; i++) {
       var stillURL = response.data[i].images.fixed_height_still.url;
@@ -65,9 +63,6 @@ function getGiphy() {
       var rating = $("<div>")
         .text(ratingText.toUpperCase())
         .addClass("ratingClass");
-      var favorites = $("<button>")
-        .addClass("favoritesButton")
-        .text("Add to Favorites");
       var giphyImage = $("<img>")
         .addClass("giphy")
         .attr("src", stillURL)
@@ -78,11 +73,10 @@ function getGiphy() {
         .addClass("giphyContainer")
         .append(giphyImage)
         .append(rating)
-        .append(favorites);
       $("#giphyArea").append(giphyContainer);
     }
 
-    $(".giphy").on("click", function() {
+    $(".giphy").on("click", function () {
       var state = $(this).attr("data-state");
 
       if (state === "still") {
@@ -99,7 +93,7 @@ function getGiphy() {
       .attr("id", "addMore");
     $("#giphyArea").append(addMore);
 
-    $("#addMore").on("click", function() {
+    $("#addMore").on("click", function () {
       $("#giphyArea").empty();
       resultNumber = resultNumber + 10;
       console.log(resultNumber);
@@ -115,7 +109,7 @@ function getGiphy() {
 
 makeButtons();
 
-$("#add-button").on("click", function(event) {
+$("#add-button").on("click", function (event) {
   event.preventDefault();
   var addAnimal = $("#buttonInput")
     .val()
@@ -125,7 +119,7 @@ $("#add-button").on("click", function(event) {
   $("#buttonInput").val("");
 });
 
-$(document).on("click", ".animalButton", function() {
+$(document).on("click", ".animalButton", function () {
   $("#giphyArea").empty();
   resultNumber = 10;
   animalVar = $(this).attr("data-animal-name");
@@ -139,6 +133,6 @@ $(document).on("click", ".animalButton", function() {
   getGiphy();
 });
 
-$(document).on("click", ".favoritesButton", function() {
+$(document).on("click", ".favoritesButton", function () {
   favoritesArr.push($(this));
 });
